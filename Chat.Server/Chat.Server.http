@@ -1,6 +1,10 @@
-@Chat.Server_HostAddress = http://localhost:5076
+@host = http://localhost:5076
 
-GET {{Chat.Server_HostAddress}}/weatherforecast/
-Accept: application/json
+POST {{host}}/api/users/login
+Content-Type: application/json
+
+{ "username": "ivan" }
 
 ###
+
+GET {{host}}/api/messages?take=50

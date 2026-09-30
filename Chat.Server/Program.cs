@@ -1,4 +1,5 @@
 using Chat.Server.Data;
+using Chat.Server.Hubs;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,8 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<ChatDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
+
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -30,5 +33,7 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<ChatHub>("/hubs/chat");
 
 app.Run();

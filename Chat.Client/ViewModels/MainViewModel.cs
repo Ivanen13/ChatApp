@@ -25,9 +25,11 @@ namespace Chat.Client.ViewModels
             login.LoggedIn += OnLoggedIn;
         }
 
-        private void OnLoggedIn(UserDto user)
+        private async void OnLoggedIn(UserDto user)
         {
-            CurrentViewModel = new ChatViewModel(user, _api, _hub);
+            var chat = new ChatViewModel(user, _api, _hub);
+            CurrentViewModel = chat;
+            await chat.InitializeAsync();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,11 @@ namespace Chat.Client.Views
         public ChatView()
         {
             InitializeComponent();
+            ((INotifyCollectionChanged)MessagesList.Items).CollectionChanged += (_, _) =>
+            {
+                if (MessagesList.Items.Count > 0)
+                    MessagesList.ScrollIntoView(MessagesList.Items[^1]);
+            };
         }
     }
 }

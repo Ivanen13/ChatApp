@@ -22,21 +22,56 @@
 
         <ListBox x:Name="MessagesList" Grid.Row="1"
          ItemsSource="{Binding Messages}"
-         HorizontalContentAlignment="Stretch">
+         Background="#F0F2F5"
+         BorderThickness="0"
+         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <ContentPresenter />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Margin="4">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Username}" FontWeight="Bold" />
-                            <TextBlock Text="{Binding LocalTime, StringFormat=' {0:HH:mm}'}"
-                               Foreground="Gray" />
+                    <Border x:Name="Bubble"
+                    Background="White"
+                    CornerRadius="12"
+                    Padding="10,6"
+                    Margin="8,4,60,4"
+                    MaxWidth="320"
+                    HorizontalAlignment="Left">
+                        <StackPanel>
+                            <TextBlock x:Name="Author" Text="{Binding Username}"
+                               FontWeight="SemiBold" FontSize="12" Foreground="#4A5568" />
+                            <TextBlock x:Name="MessageText" Text="{Binding Content}"
+                               TextWrapping="Wrap" FontSize="14" />
+                            <TextBlock x:Name="Time" Text="{Binding LocalTime, StringFormat='{}{0:HH:mm}'}"
+                               FontSize="10" Foreground="Gray"
+                               HorizontalAlignment="Right" Margin="0,2,0,0" />
                         </StackPanel>
-                        <TextBlock Text="{Binding Content}" TextWrapping="Wrap" />
-                    </StackPanel>
+                    </Border>
+
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsMine}" Value="True">
+                            <Setter TargetName="Bubble" Property="HorizontalAlignment" Value="Right" />
+                            <Setter TargetName="Bubble" Property="Margin" Value="60,4,8,4" />
+                            <Setter TargetName="Bubble" Property="Background" Value="#0B84FF" />
+                            <Setter TargetName="Author" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="MessageText" Property="Foreground" Value="White" />
+                            <Setter TargetName="Time" Property="Foreground" Value="#D6E9FF" />
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        
+
         <TextBlock Grid.Row="2" Text="{Binding ErrorMessage}"
            Foreground="Red" TextWrapping="Wrap" Margin="0,4,0,0" />
 

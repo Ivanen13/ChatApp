@@ -10,17 +10,17 @@ namespace Chat.Server.Hubs
         public async Task SendMessage(int userId, string content)
         {
             if (string.IsNullOrWhiteSpace(content))
-                throw new HubException("Content cannot be empty");
+                throw new HubException("Správa nesmie byť prázdna");
 
             string contentTrim = content.Trim();
 
             if (contentTrim.Length > 1000)
-                throw new HubException("Message can be at most 1000 characters.");
+                throw new HubException("Správa môže mať maximálne 1000 znakov");
 
             User? user = await db.Users.FindAsync(userId);
 
             if (user == null)
-                throw new HubException("User not found");
+                throw new HubException("Používateľ sa nenašiel");
 
             Message message = new Message() 
             {

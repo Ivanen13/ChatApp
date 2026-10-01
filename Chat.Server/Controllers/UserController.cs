@@ -14,12 +14,12 @@ namespace Chat.Server.Controllers
         public async Task<ActionResult<UserDto>> Login(LoginRequest request)
         {
             if(string.IsNullOrWhiteSpace(request.Username))
-                return BadRequest("Username cant be empty.");
+                return BadRequest("Používateľské meno nemôže byť prázdne.");
 
             string username = request.Username.Trim();
 
             if (username.Length > 32)
-                return BadRequest("Username can be at most 32 characters.");
+                return BadRequest("Používateľské meno môže mať maximálne 32 znakov.");
 
             User? user = await db.Users.FirstOrDefaultAsync(u => u.Username == username);
 

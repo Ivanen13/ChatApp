@@ -1,5 +1,6 @@
 ﻿using Chat.Shared;
 using Chat.Shared.Dtos;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 
@@ -11,8 +12,10 @@ namespace Chat.Client.Services
         {
             var response =  await http.PostAsJsonAsync("api/users/login", new LoginRequest(username));
 
-            if(!response.IsSuccessStatusCode)
+            if (response.StatusCode == HttpStatusCode.BadRequest)
                 throw new InvalidOperationException(await response.Content.ReadAsStringAsync());
+
+            response.EnsureSuccessStatusCode();
 
             return (await response.Content.ReadFromJsonAsync<UserDto>())!;
         }

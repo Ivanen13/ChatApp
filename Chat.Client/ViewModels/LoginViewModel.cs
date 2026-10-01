@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Net.Http;
+using System.Windows;
 
 namespace Chat.Client.ViewModels
 {
@@ -21,19 +22,26 @@ namespace Chat.Client.ViewModels
         [RelayCommand(CanExecute = nameof(CanLogin))]
         private async Task LoginAsync()
         {
-            ErrorMessage = null;
+            ErrorMessage = string.Empty;
             try
             {
                 var user = await api.LoginAsync(Username);
                 LoggedIn?.Invoke(user);
             }
-            catch (InvalidOperationException ex) 
+            catch (InvalidOperationException ex)
             {
+                // validacna chyba zo servera
                 ErrorMessage = ex.Message;
             }
-            catch (HttpRequestException ex)
+            catch (HttpRequestException ex) when (ex.StatusCode is null)
             {
-                ErrorMessage = ex.Message;
+                // server nebezi / nie je dostupny
+                ErrorMessage = "Server nie je dostupný";
+            }
+            catch (HttpRequestException)
+            {
+                // server odpovedal, ale s chybou (napr. 500)
+                ErrorMessage = "Nastala chyba na serveri.";
             }           
         }
 

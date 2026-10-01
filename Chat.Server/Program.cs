@@ -13,7 +13,8 @@ builder.Services.AddOpenApi();
 var connectionString = builder.Configuration.GetConnectionString("Default");
 
 builder.Services.AddDbContext<ChatDbContext>(options =>
-    options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 4, 0))));
+   options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 4, 0)),
+       mySql => mySql.EnableRetryOnFailure()));
 
 builder.Services.AddSignalR();
 

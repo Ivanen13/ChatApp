@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Chat.Client.ViewModels;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,8 +17,9 @@ namespace Chat.Client;
 /// </summary>
 public partial class MainWindow : Window
 {
-    public MainWindow()
+    public MainWindow(MainViewModel viewModel)
     {
         InitializeComponent();
+        DataContext = viewModel;
     }
 }

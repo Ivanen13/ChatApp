@@ -1,4 +1,5 @@
 ﻿using Chat.Client.Services;
+using Chat.Client.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System.Configuration;
 using System.Data;
@@ -27,6 +28,9 @@ public partial class App : Application
 
         services.AddSingleton<MainWindow>();
 
+        services.AddSingleton<MainViewModel>();
+        services.AddTransient<LoginViewModel>();
+
         _services = services.BuildServiceProvider();
         _services.GetRequiredService<MainWindow>().Show();
     }
@@ -38,5 +42,6 @@ public partial class App : Application
 
         base.OnExit(e);
     }
+
 }
 
